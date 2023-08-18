@@ -20,7 +20,6 @@ Funkce stavů
  - vrátit ukazatel o 1 zpět
 
 ## Stavy
-### Se dopíše
 
 ## Barevná schémata
 ### numbers
@@ -31,3 +30,4 @@ Funkce stavů
 ### reserved
 ### pars_[1-8]
 ### comments
+### string

@@ -16,19 +16,19 @@ impl Automat {
         Self { input, buffer: "".to_string(), index: 0, par: 0 , scheme: scheme, free: true}
     }
 
-        fn transition(&mut self) -> usize {
-            let literal = self.input.chars().nth(self.index);
-            match literal {
-                Some(symbol) => {
-                    self.buffer.push(symbol);
-                    self.index += 1;
-                    return symbols::alphabet(symbol);
-                }
-                None => {
-                    return 101;
-                }
+    fn transition(&mut self) -> usize {
+        let literal = self.input.chars().nth(self.index);
+        match literal {
+            Some(symbol) => {
+                self.buffer.push(symbol);
+                self.index += 1;
+                return symbols::alphabet(symbol);
+            }
+            None => {
+                return 101;
             }
         }
+    }
 
     pub fn get(& mut self) -> String {
         let text = self.scheme.buffer.clone();
@@ -81,19 +81,19 @@ impl Automat {
             }
             8 => {
                 self.free = false;
-                self.n();
+                self.number();
             }
             9 => {
                 self.free = false;
-                self.p();
+                self.var();
             }
             10 => {
                 self.free  = false;
-                self.s();
+                self.string();
             }
             11 => {
                 if self.free {
-                    self.c();
+                    self.comment();
                 }
                 else {
                     self.scheme.color(self.buffer.clone(), "adverbs".to_string());
@@ -109,10 +109,10 @@ impl Automat {
         }
     }
 
-    fn p(&mut self) {
+    fn var(&mut self) {
         let literal = self.transition();
         match literal {
-            8 | 9 => self.p(),
+            8 | 9 => self.var(),
 
             101 => {
                 self.scheme.color(self.buffer.clone(), "vars".to_string());
@@ -132,7 +132,7 @@ impl Automat {
     fn under(&mut self) {
         let literal = self.transition();
         match literal {
-            9 => self.r(),
+            9 => self.reserved(),
 
             101 => {
                 self.scheme.color(self.buffer.clone(), "verbs".to_string());
@@ -149,10 +149,10 @@ impl Automat {
         }
     }
 
-    fn r(&mut self) {
+    fn reserved(&mut self) {
         let literal = self.transition();
         match literal {
-            9 => self.r(),
+            9 => self.reserved(),
 
             101 => {
                 self.scheme.color(self.buffer.clone(), "reserved".to_string());
@@ -169,10 +169,10 @@ impl Automat {
         }
     }
 
-    fn n(&mut self) {
+    fn number(&mut self) {
         let literal = self.transition();
         match literal {
-            3 => self.number(),
+            3 => self.int(),
             5 => {
                 self.scheme.color(self.buffer.clone(), "adverbs".to_string());
                 self.buffer = "".to_string();
@@ -195,10 +195,10 @@ impl Automat {
         }
     }
 
-    fn number(&mut self) {
+    fn int(&mut self) {
         let literal = self.transition();
         match literal {
-            3 => self.number(),
+            3 => self.int(),
             9 => self.float(),
 
             101 => {
@@ -236,7 +236,7 @@ impl Automat {
         }
     }
 
-    fn s(&mut self) {
+    fn string(&mut self) {
         let literal = self.transition();
         match literal {
             10 | 101 => {
@@ -244,11 +244,11 @@ impl Automat {
                 self.buffer = "".to_string();
             }
 
-            _ => self.s(),
+            _ => self.string(),
         }
     }
 
-    fn c(&mut self) {
+    fn comment(&mut self) {
         let literal = self.transition();
         match literal {
             101 => {
@@ -256,7 +256,7 @@ impl Automat {
                 self.buffer = "".to_string();
             }
 
-            _ => self.c(),
+            _ => self.comment(),
         }
     }
 }

@@ -1,16 +1,16 @@
 use crate::colors::Scheme;
 use crate::symbols;
 
-pub struct Automat {
+pub struct Highlighter {
     input: String,
     buffer: String,
     index: usize,
     par: usize,
-    scheme: Scheme,
+    pub scheme: Scheme,
     free: bool,
 }
 
-impl Automat {
+impl Highlighter {
     pub fn new(input: String, style: &str) -> Self {
         let scheme = Scheme::new(style.to_string());
         Self { input, buffer: "".to_string(), index: 0, par: 0 , scheme: scheme, free: true}
@@ -34,10 +34,6 @@ impl Automat {
         let text = self.scheme.buffer.clone();
         self.scheme.buffer = "".to_string();
         return text;
-    }
-
-    pub fn add(&mut self, input: String) {
-        self.input.push_str(input.as_str());
     }
 
     pub fn start(&mut self) {
@@ -67,16 +63,18 @@ impl Automat {
             }
             6 => {
                 self.free = false;
-                let text = format!("par_{}", self.par % 4);
+                let text = format!("pars_{}", self.par % 4);
                 self.scheme.color(self.buffer.clone(), text.to_string());
+                self.buffer.pop();
                 self.par += 1;
                 self.start();
             }
             7 => {
                 self.free = false;
-                let text = format!("par_{}", self.par % 4);
-                self.scheme.color(self.buffer.clone(), text.to_string());
                 self.par -= 1;
+                let text = format!("pars_{}", self.par % 4);
+                self.scheme.color(self.buffer.clone(), text.to_string());
+                self.buffer.pop();
                 self.start();
             }
             8 => {
@@ -104,6 +102,7 @@ impl Automat {
             101 => self.free = true,
             _ => {
                 self.free = false;
+                self.buffer.pop();
                 self.start();
             }
         }

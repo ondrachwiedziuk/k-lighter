@@ -57,7 +57,7 @@ k-lighter foo.k foo.html
 ```
 
 ### Custom styles
-You can also customize styles. Just append your pattern to the end of `./rsc/colors.ini` file.
+You can also customize styles. Just append your pattern to the end of `$HOME/.cargo/k-lighter.ini` file.
 Patterns have the following structure:
 ```ini
 [NAME]

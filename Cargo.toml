@@ -4,6 +4,7 @@ author = "Ondřej Chwiedziuk"
 version = "1.0.0"
 edition = "2021"
 description = "K-lighter is a syntax highlighter for K language."
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

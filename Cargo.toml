@@ -1,10 +1,14 @@
 [package]
 name = "k-lighter"
-author = "Ondřej Chwiedziuk"
+authors = ["Ondřej Chwiedziuk <ondra@chwiedziuk.cz>"]
 version = "1.0.0"
 edition = "2021"
 description = "K-lighter is a syntax highlighter for K language."
 license = "MIT"
+
+[[bin]]
+name = "k-lighter"
+path = "src/main.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

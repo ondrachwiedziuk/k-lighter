@@ -1,7 +1,7 @@
 [package]
 name = "k-lighter"
 authors = ["Ondřej Chwiedziuk <ondra@chwiedziuk.cz>"]
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 description = "K-lighter is a syntax highlighter for K language."
 license = "MIT"

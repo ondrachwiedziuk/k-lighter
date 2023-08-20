@@ -1,10 +1,19 @@
 use configparser::ini::Ini;
 use std::collections::HashMap;
+use std::path::PathBuf;
+use std::env;
+use dirs;
 
 
 pub fn pattern(style: &str) -> HashMap<String, String>{
     let mut config = Ini::new();
-    let map = config.load("./rsc/colors.ini");
+    let cargo = env::var("CARGO_HOME");
+    let config_dir = match cargo {
+        Ok(config_dir) => PathBuf::from(&config_dir),
+        Err(_) => dirs::home_dir().unwrap().join(".cargo"),
+    };
+    let settings = config_dir.join("k-lighter.ini");
+    let map = config.load(settings);
     match map {
         Ok(_x) => (),
         Err(_x) => return HashMap::new(),

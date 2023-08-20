@@ -1,10 +1,11 @@
 [package]
 name = "k-lighter"
 authors = ["Ondřej Chwiedziuk <ondra@chwiedziuk.cz>"]
-version = "1.0.1"
+version = "1.0.2"
 edition = "2021"
 description = "K-lighter is a syntax highlighter for K language."
 license = "MIT"
+build = "build.rs"
 
 [[bin]]
 name = "k-lighter"
@@ -15,3 +16,4 @@ path = "src/main.rs"
 [dependencies]
 clap = { version = "4.3.22", features = ["derive"] }
 configparser = "3.0.2"
+dirs = "5.0.1"

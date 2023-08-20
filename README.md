@@ -4,7 +4,13 @@ K-lighter is a syntax highlighter for K language.
 
 ## Installation
 
-Clone this repo using the following command:
+Use cargo to install this package:
+
+```bash
+cargo install k-lighter
+```
+
+You can also build this package from source. Clone this repo using the following command:
 
 ```bash
 git clone https://github.com/ondrachwiedziuk/k-lighter.git
@@ -13,13 +19,13 @@ git clone https://github.com/ondrachwiedziuk/k-lighter.git
 Then enter main directory and run:
 
 ```bash
-cargo build
+cargo install --path .
 ```
 
 To have better performance, you can write alias in your .bashrc file:
 
 ```bash
-alias k-lighter="PATH/k-lighter/target/debug/k-lighter"
+alias k-lighter="$HOME/.cargo/bin/k-lighter"
 ```
 
 ## Usage

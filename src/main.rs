@@ -1,3 +1,12 @@
+//! Description of design pattern:
+//! 
+//! At input takes a .k file. This file is read line by line. Each line is processed to an automaton.
+//! This automaton is deterministic pushdown automaton, that works recursively.
+//! reads input line char by char. Each char gets its number code, which says, what type of char it is.
+//! By this code is determined next styte of automaton. However, there are flags, that contains information about paranthesses nestation and about spaces.
+//! If Automaton recognizes a word, gives it to an Scheme struct, which color it by given pattern and end state of automaton.
+//! After end of automaton running process, writes this line as a paragraph to a HTML file.
+
 mod symbols;
 mod colors;
 mod automat;
@@ -30,6 +39,9 @@ where P: AsRef<Path>, {
 }
 
 
+/// Main body.
+/// 
+/// takes an argument from command line and proccess a highlightation of given file.
 fn main() {
     let args = Args::parse();
 

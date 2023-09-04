@@ -92,3 +92,8 @@ comments = 0000ff
 string = 508050
 background = 000000
 ```
+## Conclusion
+
+This project is supposed to be used inside text editors. However, this project is written in Rust, so it requires some JavaScript to wrap this core and make it work with text editors like VS Code.
+
+Another direction of this project can be some smarter features like recognizing unused variables, formatting a code by some template and checking correct syntax of K.

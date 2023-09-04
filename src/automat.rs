@@ -1,6 +1,21 @@
+
+//! This module contains an automaton such that processes a given String.
+//! Automaton works recursively.
+
 use crate::colors::Scheme;
 use crate::symbols;
 
+
+/// Automaton struct.
+/// 
+/// Params:
+/// 
+///     input: String   String which is processed by an automaton.
+///     buffer: String  Buffer contains a word recognized by an automaton.
+///     index: usize    Pointer to the current char in input.
+///     par: usize      Counter of nestation of parentheses.
+///     pub scheme: Scheme  Color scheme which is used.
+///     free: bool      Flag if previous char was a space or new line.
 pub struct Highlighter {
     input: String,
     buffer: String,
@@ -10,12 +25,30 @@ pub struct Highlighter {
     free: bool,
 }
 
+/// Implementation of methods of Highlighter
 impl Highlighter {
+    /// Constructor of Highlighter
+    /// 
+    /// Args:
+    /// 
+    ///     input: String   String which is processed by an automaton.
+    ///     style: &str     Name of style which is supposed to use.
+    /// 
+    /// Returns:
+    /// 
+    ///     Self
     pub fn new(input: String, style: &str) -> Self {
         let scheme = Scheme::new(style.to_string());
         Self { input, buffer: "".to_string(), index: 0, par: 0 , scheme: scheme, free: true}
     }
 
+    /// Transition function of automaton.
+    /// 
+    /// Moves a pointer by one and returns recognize of character.
+    /// 
+    /// Returns:
+    /// 
+    ///     usize: Number code of character, can be found in symbols.rs.
     fn transition(&mut self) -> usize {
         let literal = self.input.chars().nth(self.index);
         match literal {
@@ -30,12 +63,21 @@ impl Highlighter {
         }
     }
 
+    /// Returns a recognized word from buffer and clears a buffer.
+    /// 
+    /// Returns:
+    /// 
+    ///     String: recognized word.
     pub fn get(& mut self) -> String {
         let text = self.scheme.buffer.clone();
         self.scheme.buffer = "".to_string();
         return text;
     }
 
+    /// Initialization of string processing, init state of automaton.
+    /// 
+    /// Is able to recognize verbs, adverbs and parentheses.
+    /// Calls next state by number code of given symbol.
     pub fn start(&mut self) {
         let literal = self.transition();
         match literal {
@@ -108,6 +150,10 @@ impl Highlighter {
         }
     }
 
+    /// Variable state.
+    /// 
+    /// Given word recognizes as variable.
+    /// Calls next state by number code of given symbol.
     fn var(&mut self) {
         let literal = self.transition();
         match literal {
@@ -128,6 +174,10 @@ impl Highlighter {
         }
     }
 
+    /// Underscore state.
+    /// 
+    /// Recognizes an underscore
+    /// Calls next state by number code of given symbol.
     fn under(&mut self) {
         let literal = self.transition();
         match literal {
@@ -148,6 +198,10 @@ impl Highlighter {
         }
     }
 
+    /// Reserved word state.
+    /// 
+    /// Recognizes reserved words.
+    /// Calls next state by number code of given symbol.
     fn reserved(&mut self) {
         let literal = self.transition();
         match literal {
@@ -168,6 +222,10 @@ impl Highlighter {
         }
     }
 
+    /// Number state.
+    /// 
+    /// Recognizes numbers.
+    /// Calls next state by number code of given symbol.
     fn number(&mut self) {
         let literal = self.transition();
         match literal {
@@ -194,6 +252,10 @@ impl Highlighter {
         }
     }
 
+    /// Integer state.
+    /// 
+    /// Recognizes integers.
+    /// Calls next state by number code of given symbol.
     fn int(&mut self) {
         let literal = self.transition();
         match literal {
@@ -215,6 +277,10 @@ impl Highlighter {
         }
     }
 
+    /// Float state.
+    /// 
+    /// Recognizes floats.
+    /// Calls next state by number code of given symbol.
     fn float(&mut self) {
         let literal = self.transition();
         match literal {
@@ -235,6 +301,10 @@ impl Highlighter {
         }
     }
 
+    /// String state.
+    /// 
+    /// Recognizes strings.
+    /// Calls next state by number code of given symbol.
     fn string(&mut self) {
         let literal = self.transition();
         match literal {
@@ -247,6 +317,10 @@ impl Highlighter {
         }
     }
 
+    /// Comment state.
+    /// 
+    /// Recognizes commnents.
+    /// Calls next state by number code of given symbol.
     fn comment(&mut self) {
         let literal = self.transition();
         match literal {
